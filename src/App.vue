@@ -1,39 +1,44 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <KeyPress key-event="keypress" :key-code="97" @success="onKeyPressZero" @any="onAnyKey"/>
+  <KeyPress
+    key-event="keyup"
+    :key-code="keys.num4"
+    @success="onKeyPressZero"
+    @any="onAnyKey"
+  />
 </template>
 
 <script>
-import {defineAsyncComponent} from 'vue'
-import {keys} from 'keycodes-map'
+import { defineAsyncComponent } from "vue";
+import { keys } from "keycodes-map";
 // import KeyPress from 'vue3-keypress'
 
-const KeyPress = defineAsyncComponent(()=>import('vue3-keypress'))
+const KeyPress = defineAsyncComponent(() => import("vue3-keypress"));
 
 export default {
-  components:{
-    KeyPress
+  components: {
+    KeyPress,
   },
-  data(){
+  data() {
     return {
-    multiple:[
-      {
-        keyCode:'a',
-        preventDefault: true
-      }
-    ],
-    keys
-  }},
-  methods:{
-    onKeyPressZero(){
-      console.log('Zero')
+      multiple: [
+        {
+          keyCode: "a",
+          preventDefault: true,
+        },
+      ],
+      keys,
+    };
+  },
+  methods: {
+    onKeyPressZero() {
+      console.log("Zero");
     },
-    onAnyKey(e){
-      console.log(e.event.key)
-    }
-  }
-  
-}
+    onAnyKey(e) {
+      console.log(e.event.key);
+    },
+  },
+};
 </script>
 
 <style>
