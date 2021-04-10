@@ -2,9 +2,8 @@
   <img alt="Vue logo" src="./assets/logo.png" />
   <KeyPress
     key-event="keyup"
-    :key-code="keys.num4"
-    :multipleKeys="multiple"
-    @success="onKeyPressZero"
+    :multiple-keys="multipleKeys"
+    @success="onSuccess"
     @any="onAnyKey"
   />
 </template>
@@ -12,16 +11,9 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { keys } from "keycodes-map";
-// import KeyPress from 'vue3-keypress'
-
-
+import {multipleKeys} from './keyPress'
 
 const KeyPress = defineAsyncComponent(() => import("vue3-keypress"));
-
-const keysEvents = {
-  keys.num1:,
-}
-
 
 export default {
   components: {
@@ -29,121 +21,34 @@ export default {
   },
   data() {
     return {
-      multiple: [
-        {
-          keyCode: keys.num0,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num1,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num2,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num3,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num4,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num5,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num6,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num7,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num8,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num9,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad0,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad1,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad2,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad3,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad4,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad5,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad6,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad7,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad8,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpad9,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpadEqual,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpadDivide,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpadMultiply,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpadSubtract,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.numpadAdd,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.delete,
-          preventDefault: true,
-        },
-        {
-          keyCode: keys.num8,
-          modifiers: ["shiftkey"],
-          preventDefault: true,
-        },
-      ],
-      keys,
-    };
+      eventSuccess: {
+        0: this.onKeyPressDigit0,
+        1: this.onKeyPressDigit1,
+        2: this.onKeyPressDigit2,
+        3: this.onKeyPressDigit3,
+        4: this.onKeyPressDigit4,
+        5: this.onKeyPressDigit5,
+        6: this.onKeyPressDigit6,
+        7: this.onKeyPressDigit7,
+        8: this.onKeyPressDigit8,
+        9: this.onKeyPressDigit9,
+        '+': this.onKeyPressAdd,
+        '-': this.onKeyPressSub,
+        '=': this.onKeyPressCalc,
+        '/': this.onKeyPressDivide,
+        '*': this.onKeyPressMulty,
+        'Delete': this.onKeyPressDel,
+        'Enter': this.onKeyPressCalc,
+        'Escape': this.onKeyPressEscape,
+        'Backspace': this.onKeyPressBackspace,
+      },
+      multipleKeys,
+    }
   },
   methods: {
+    isKeyReserved(keySome){
+      return Object.keys(this.eventSuccess).some(key=>key==keySome)},
+
     onKeyPressDigit1() {
       console.log("One");
     },
@@ -174,8 +79,34 @@ export default {
     onKeyPressDigit0() {
       console.log("Zero");
     },
+    onKeyPressCalc() {
+      console.log("Calc");
+    },
+    onKeyPressDivide() {
+      console.log("Divide");
+    },
+    onKeyPressMulty() {
+      console.log("Multy");
+    },
+    onKeyPressAdd() {
+      console.log("Add");
+    },
+    onKeyPressSub() {
+      console.log("Sub");
+    },
+    onKeyPressDel() {
+      console.log("Delete");
+    },
+    onKeyPressEscape() {
+      console.log("Escape");
+    },
+    onSuccess(res) {
+      let key = res.event.key
+      if (!this.isKeyReserved(key)) {return console.log("Клавиша не зарезервирована")}
+      this.eventSuccess[key]()
+    },
     onAnyKey(e) {
-      console.log(e.event.key);
+      // console.log(e.event.key);
     },
   },
 };
