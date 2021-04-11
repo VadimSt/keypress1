@@ -18,6 +18,7 @@ export default {
   components: {
     KeyPress,
   },
+
   data() {
     return {
       eventSuccess: {
@@ -45,7 +46,7 @@ export default {
     }
   },
   methods: {
-    isKeyReserved(keySome){
+    isKeyRegistered(keySome){
       return Object.keys(this.eventSuccess).some(key=>key==keySome)},
 
     onKeyPressDigit1() {
@@ -99,11 +100,14 @@ export default {
     onKeyPressEscape() {
       console.log("Escape");
     },
+    onKeyPressBackspace() {
+      console.log("Backspace");
+    },
     onSuccess(res) {
       let key = res.event.key
       console.log(res.event.key);
 
-      if (!this.isKeyReserved(key)) {return console.log("Клавиша не зарегистрирована")}
+      if (!this.isKeyRegistered(key)) {return console.log("Клавиша не зарегистрирована")}
       this.eventSuccess[key]()
     },
     onAnyKey(res) {
