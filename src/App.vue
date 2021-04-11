@@ -10,7 +10,6 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { keys } from "keycodes-map";
 import {multipleKeys} from './keyPress'
 
 const KeyPress = defineAsyncComponent(() => import("vue3-keypress"));
@@ -102,11 +101,13 @@ export default {
     },
     onSuccess(res) {
       let key = res.event.key
-      if (!this.isKeyReserved(key)) {return console.log("Клавиша не зарезервирована")}
+      console.log(res.event.key);
+
+      if (!this.isKeyReserved(key)) {return console.log("Клавиша не зарегистрирована")}
       this.eventSuccess[key]()
     },
-    onAnyKey(e) {
-      // console.log(e.event.key);
+    onAnyKey(res) {
+      console.log(res.event.key);
     },
   },
 };
